@@ -1,13 +1,33 @@
 import mongoose from "mongoose";
 
-const DeadlineSchema = new mongoose.Schema(
+const deadlineSchema = new mongoose.Schema(
   {
-    title: { type: String, required: true },
-    subject: { type: String, default: "" },
-    dueDate: { type: Date, required: true },
-    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    title: {
+      type: String,
+      required: true,
+    },
+
+    description: {
+      type: String,
+    },
+
+    dueDate: {
+      type: Date,
+      required: true,
+    },
+
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
-export default mongoose.model("Deadline", DeadlineSchema);
+export default mongoose.model(
+  "Deadline",
+  deadlineSchema
+);

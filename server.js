@@ -1,6 +1,9 @@
 import dotenv from "dotenv";
-
 dotenv.config();
+
+import groupRoutes from "./routes/groupRoutes.js";
+import messageRoutes from "./routes/messageRoutes.js";
+import deadlineRoutes from "./routes/deadlineRoutes.js";
 
 import express from "express";
 import cors from "cors";
@@ -8,21 +11,31 @@ import cors from "cors";
 import { connectDB } from "./config/db.js";
 
 import authRoutes from "./routes/authRoutes.js";
+
 import resourceRoutes from "./routes/resourceRoutes.js";
 
 connectDB();
 
 const app = express();
 
-app.use(cors({ origin: process.env.CLIENT_URL }));
-
+app.use(
+  cors({
+    origin:
+      process.env.CLIENT_URL ||
+      "http://localhost:3000",
+    credentials: true,
+  })
+);
 app.use(express.json());
+app.use("/api/groups", groupRoutes);
 
 app.get("/", (req, res) => {
   res.send("CampusSync API is running 🚀");
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/messages", messageRoutes);
+app.use("/api/deadlines", deadlineRoutes);
 
 app.use("/api/resources", resourceRoutes);
 
